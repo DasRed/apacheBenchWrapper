@@ -3,14 +3,14 @@
 		"name": "giodgfnesiuf",
 		"requests": 10,
 		"concurrency": 2,
-		"gnuPlotFile": "C:/Server/Webspace/apacheBenchWrapper/heise.txt",
+		"gnuPlotFile": "example/heise.csv",
 		"url": "http://www.heise.de/"
 	},
 	{
 		"name": "giodgfnesiuf",
 		"requests": 10,
 		"concurrency": 2,
-		"gnuPlotFile": "C:/Server/Webspace/apacheBenchWrapper/heise.txt",
+		"gnuPlotFile": "example/heise.csv",
 		"url": "http://www.heise.de/"
 	}
 ]

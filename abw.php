@@ -6,7 +6,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 $console = Console::getInstance();
 
-$parameters = getopt('c:p::h::', ['config:', 'abPath::', 'help::']);
+$parameters = getopt('c:p:h::', ['config:', 'abPath::', 'help::']);
 
 switch (true)
 {
@@ -27,7 +27,7 @@ Options are:
 $configFile = array_key_exists('c', $parameters) === true ? $parameters['c'] : $parameters['config'];
 $abPath = '';
 $abPathHasDoubleQuotes = false;
-if (array_key_exists('p', $parameters) === false && array_key_exists('abPath', $parameters) === false)
+if (array_key_exists('p', $parameters) !== false || array_key_exists('abPath', $parameters) !== false)
 {
     $abPath = array_key_exists('p', $parameters) === true ? $parameters['p'] : $parameters['abPath'];
     $abPathHasDoubleQuotes = substr($abPath, 0, 1) === '"';
@@ -44,12 +44,12 @@ if (is_readable($configFile) === false)
     $console->writeLine('Config file "' . $configFile . '" is not readable.', ColorInterface::LIGHT_RED);
     exit(1);
 }
-if (file_exists($abPath) === false)
+if ($abPath !== '' && file_exists($abPath) === false)
 {
     $console->writeLine('Apache Bench path "' . $abPath . '" does not exits.', ColorInterface::LIGHT_RED);
     exit(1);
 }
-if (is_dir($abPath) === false)
+if ($abPath !== '' && is_dir($abPath) === false)
 {
     $console->writeLine('Apache Bench path "' . $abPath . '" is not a directory.', ColorInterface::LIGHT_RED);
     exit(1);
