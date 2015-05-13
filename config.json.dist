@@ -1,0 +1,13 @@
+[
+  {
+    "name": "giodgfnesiuf",
+    "requests": 100,
+    "concurrency": 4,
+    "gnuPlotFile": "hrs.txt",
+    "url": "http://heise.de"
+    // ,
+    // "ssl": false,
+    // "postFiles": ["file relative to conf"],
+    // "contentType": "text/html",
+  }
+]

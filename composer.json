@@ -1,0 +1,9 @@
+{
+    "name": "Apache Bench Wrapper",
+    "description": "Apache Bench Wrapper",
+    "license": "commercial",
+    "require": {
+        "zendframework/zend-console": "2.3.*@dev"
+    }
+}
+

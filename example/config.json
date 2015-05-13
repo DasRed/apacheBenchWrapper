@@ -1,0 +1,16 @@
+[
+	{
+		"name": "giodgfnesiuf",
+		"requests": 10,
+		"concurrency": 2,
+		"gnuPlotFile": "C:/Server/Webspace/apacheBenchWrapper/heise.txt",
+		"url": "http://www.heise.de/"
+	},
+	{
+		"name": "giodgfnesiuf",
+		"requests": 10,
+		"concurrency": 2,
+		"gnuPlotFile": "C:/Server/Webspace/apacheBenchWrapper/heise.txt",
+		"url": "http://www.heise.de/"
+	}
+]
