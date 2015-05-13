@@ -6,7 +6,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 $console = Console::getInstance();
 
-$parameters = getopt('c:p:h::', ['config:', 'abPath:', 'help::']);
+$parameters = getopt('c:p::h::', ['config:', 'abPath::', 'help::']);
 
 switch (true)
 {
