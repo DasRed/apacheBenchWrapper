@@ -12,23 +12,27 @@ switch (true)
 {
     case $parameters === false:
     case array_key_exists('c', $parameters) === false && array_key_exists('config', $parameters) === false:
-    case array_key_exists('p', $parameters) === false && array_key_exists('abPath', $parameters) === false:
     case array_key_exists('h', $parameters) === true || array_key_exists('help', $parameters) === true:
         echo '
-Usage: ' . $console->colorize('php start.php [options]', ColorInterface::LIGHT_GREEN) . '
+Usage: ' . $console->colorize('php ' . basename(__FILE__) . ' [options]', ColorInterface::LIGHT_GREEN) . '
 
 Options are:
     -c config       Config file in json format
-    -p abPath       Path to apache bench binaries
+    -p abPath       Path to apache bench binaries. if not defined it will try to find
     -h help         Display usage information (this message)
 ';
         exit(0);
 }
 
 $configFile = array_key_exists('c', $parameters) === true ? $parameters['c'] : $parameters['config'];
-$abPath = array_key_exists('p', $parameters) === true ? $parameters['p'] : $parameters['abPath'];
-$abPathHasDoubleQuotes = $abPath[0] === '"';
-$abPath = rtrim(trim($abPath, '"'), '\\/');
+$abPath = '';
+$abPathHasDoubleQuotes = false;
+if (array_key_exists('p', $parameters) === false && array_key_exists('abPath', $parameters) === false)
+{
+    $abPath = array_key_exists('p', $parameters) === true ? $parameters['p'] : $parameters['abPath'];
+    $abPathHasDoubleQuotes = substr($abPath, 0, 1) === '"';
+    $abPath = rtrim(trim($abPath, '"'), '\\/')  . DIRECTORY_SEPARATOR;
+}
 
 if (file_exists($configFile) === false)
 {
@@ -59,7 +63,8 @@ foreach ($config as $benchTest)
     $tmpFile = tempnam(sys_get_temp_dir(), 'abw');
     $console->writeLine('Starting bench: ' . $console->colorize($benchTest->name, ColorInterface::LIGHT_GREEN) . ' ... ');
 
-    $cmd = $abPath . DIRECTORY_SEPARATOR;
+    $cmd = '';
+    $cmd .= $abPath;
     $cmd .= isset($benchTest->ssl) === true && $benchTest->ssl === true ? 'abs' : 'ab';
     if ($abPathHasDoubleQuotes === true)
     {
