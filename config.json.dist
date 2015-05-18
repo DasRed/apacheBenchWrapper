@@ -5,6 +5,13 @@
     "concurrency": 4,
     "gnuPlotFile": "hrs.txt",
     "url": "http://heise.de"
+	"httpAuth":
+	{
+		"username": "preview",
+		"password": "c24ht!"
+	},
+			"deleteGnuPlotFile": true,
+
     // ,
     // "ssl": false,
     // "postFiles": ["file relative to conf"],

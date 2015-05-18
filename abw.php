@@ -79,6 +79,18 @@ foreach ($config as $benchTest)
 	$cmd .= ' -c ' . $benchTest->concurrency;
 	$cmd .= ' -g ' . $tmpFile;
 
+	$timeout = 300;
+	if (isset($benchTest->timeout) === true)
+	{
+		$timeout = $benchTest->timeout;
+	}
+	$cmd .= ' -s ' . $timeout;
+
+	if (isset($benchTest->httpAuth) && isset($benchTest->httpAuth->username) && isset($benchTest->httpAuth->password))
+	{
+		$cmd .= ' -A "' . $benchTest->httpAuth->username . ':' . $benchTest->httpAuth->password . '"';
+	}
+
 	if (isset($benchTest->contentType) === true)
 	{
 		$cmd .= ' -T "' . $benchTest->contentType . '"';
@@ -88,12 +100,12 @@ foreach ($config as $benchTest)
 	{
 		foreach ($benchTest->postFiles as $postFile)
 		{
-			executeAb($cmd . ' -p "' . $postFile . '" ' . $benchTest->url);
+			executeAb($cmd . ' -p "' . $postFile . '" "' . $benchTest->url . '"');
 		}
 	}
 	else
 	{
-		executeAb($cmd . ' ' . $benchTest->url);
+		executeAb($cmd . ' "' . $benchTest->url . '"');
 	}
 
 	// write gnupolotfile
@@ -106,14 +118,24 @@ foreach ($config as $benchTest)
 	unlink($tmpFile);
 	if (file_exists($benchTest->gnuPlotFile) === true)
 	{
-		$content = array_splice($content, 1);
+		if (isset($benchTest->deleteGnuPlotFile) && $benchTest->deleteGnuPlotFile === true)
+		{
+			unlink($benchTest->gnuPlotFile);
+		}
+		else
+		{
+			$content = array_splice($content, 1);
+		}
 	}
 	file_put_contents($benchTest->gnuPlotFile, implode('', $content), FILE_APPEND);
 }
 
 function executeAb($cmd)
 {
-	passthru($cmd, $result);
+	$output = '';
+	$result = null;
+
+	exec($cmd, $output, $result);
 
 	if ((int)$result !== 0)
 	{
